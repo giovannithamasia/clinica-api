@@ -19,7 +19,11 @@ public class PacienteService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    public boolean inserirPaciente(PacienteDto pacienteDto){
+    public boolean inserirPaciente(PacienteDto pacienteDto) {
+
+        if (pacienteRepository.existsByEmail(pacienteDto.getEmail())) {
+            throw new RuntimeException("Paciente já existe");
+        }
 
         PacienteEntity pacienteEntity = new PacienteEntity();
 
@@ -29,46 +33,58 @@ public class PacienteService {
         pacienteRepository.save(pacienteEntity);
         return true;
     }
-    public List<PacienteRespostaDto> obterPacientes(){
+
+    public List<PacienteRespostaDto> obterPacientes() {
 
         List<PacienteEntity> entidades = pacienteRepository.findAll();
         List<PacienteRespostaDto> listaResposta = new ArrayList<>();
 
         for (PacienteEntity pacientes : entidades) {
-           PacienteRespostaDto dto = new PacienteRespostaDto();
-              dto.setId(pacientes.getId());
-              dto.setNome(pacientes.getNome());
-              dto.setEmail(pacientes.getEmail());
+            PacienteRespostaDto dto = new PacienteRespostaDto();
+            dto.setId(pacientes.getId());
+            dto.setNome(pacientes.getNome());
+            dto.setEmail(pacientes.getEmail());
 
             listaResposta.add(dto);
         }
         return listaResposta;
     }
-    public boolean atualizarPaciente(PacienteDto pacienteDto){
 
-        PacienteEntity pacienteEntity = new PacienteEntity();
+    public boolean atualizarPaciente(String email, PacienteDto pacienteDto) {
 
-        pacienteEntity.setNome(pacienteDto.getNome());
-        pacienteEntity.setEmail(pacienteDto.getEmail());
+        PacienteEntity paciente = pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        pacienteRepository.save(pacienteEntity);
+        if (pacienteRepository.existsByEmailAndIdNot(pacienteDto.getEmail(), paciente.getId())) {
+            throw new IllegalArgumentException("Já existe paciente com esse email");
+        }
+
+        paciente.setNome(pacienteDto.getNome());
+        paciente.setEmail(pacienteDto.getEmail());
+
+        pacienteRepository.save(paciente);
         return true;
 
     }
-    public PacienteEntity obterPacientePorEmail(String email) {
 
-        return pacienteRepository.findByEmail(email).orElse(null);
+    public PacienteRespostaDto obterPacientePorEmail(String email) {
+
+        PacienteEntity paciente = pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        PacienteRespostaDto respostaDto = new PacienteRespostaDto();
+        respostaDto.setId(paciente.getId());
+        respostaDto.setNome(paciente.getNome());
+        respostaDto.setEmail(paciente.getEmail());
+
+        return respostaDto;
     }
 
-     public boolean excluirPaciente(String email){
+    public boolean excluirPaciente(String email) {
 
-        PacienteEntity pacienteEntity = pacienteRepository.findByEmail(email).orElse(null);
+        pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        if (pacienteEntity != null) {
-            pacienteRepository.delete(pacienteEntity);
-            return true;
-        }
-        return false;
+        pacienteRepository.deleteByEmail(email);
+        return true;
+
 
     }
 }
