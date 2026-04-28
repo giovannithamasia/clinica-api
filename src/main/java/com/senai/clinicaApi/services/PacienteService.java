@@ -4,7 +4,10 @@ package com.senai.clinicaApi.services;
 import com.senai.clinicaApi.dto.PacienteDto;
 import com.senai.clinicaApi.dto.PacienteRespostaDto;
 import com.senai.clinicaApi.entities.PacienteEntity;
+import com.senai.clinicaApi.exceptions.EmailDuplicadoException;
+import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;
 import com.senai.clinicaApi.repositories.PacienteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +22,11 @@ public class PacienteService {
         this.pacienteRepository = pacienteRepository;
     }
 
+    @Transactional
     public boolean inserirPaciente(PacienteDto pacienteDto) {
 
         if (pacienteRepository.existsByEmail(pacienteDto.getEmail())) {
-            throw new RuntimeException("Paciente já existe");
+            throw new EmailDuplicadoException("Já existe paciente");
         }
 
         PacienteEntity pacienteEntity = new PacienteEntity();
@@ -31,6 +35,7 @@ public class PacienteService {
         pacienteEntity.setEmail(pacienteDto.getEmail());
 
         pacienteRepository.save(pacienteEntity);
+
         return true;
     }
 
@@ -50,27 +55,13 @@ public class PacienteService {
         return listaResposta;
     }
 
-    public boolean atualizarPaciente(String email, PacienteDto pacienteDto) {
+    public PacienteRespostaDto obterPaciente(String email) {
 
-        PacienteEntity paciente = pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
-
-        if (pacienteRepository.existsByEmailAndIdNot(pacienteDto.getEmail(), paciente.getId())) {
-            throw new IllegalArgumentException("Já existe paciente com esse email");
-        }
-
-        paciente.setNome(pacienteDto.getNome());
-        paciente.setEmail(pacienteDto.getEmail());
-
-        pacienteRepository.save(paciente);
-        return true;
-
-    }
-
-    public PacienteRespostaDto obterPacientePorEmail(String email) {
-
-        PacienteEntity paciente = pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+        PacienteEntity paciente = pacienteRepository.findByEmail(email)
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
 
         PacienteRespostaDto respostaDto = new PacienteRespostaDto();
+
         respostaDto.setId(paciente.getId());
         respostaDto.setNome(paciente.getNome());
         respostaDto.setEmail(paciente.getEmail());
@@ -78,13 +69,35 @@ public class PacienteService {
         return respostaDto;
     }
 
-    public boolean excluirPaciente(String email) {
+    @Transactional
+    public boolean atualizarPaciente(String email, PacienteDto pacienteDto) {
 
-        pacienteRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+        PacienteEntity paciente = pacienteRepository.findByEmail(email)
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
 
-        pacienteRepository.deleteByEmail(email);
+        if (pacienteRepository.existsByEmailAndIdNot(pacienteDto.getEmail(), paciente.getId())) {
+            throw new EmailDuplicadoException("Já existe paciente com esse email");
+        }
+
+        paciente.setNome(pacienteDto.getNome());
+        paciente.setEmail(pacienteDto.getEmail());
+
+        pacienteRepository.save(paciente);
+
         return true;
 
+    }
+
+
+    @Transactional
+    public boolean excluirPaciente(String email) {
+
+        pacienteRepository.findByEmail(email)
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
+
+        pacienteRepository.deleteByEmail(email);
+
+        return true;
     }
 }
 

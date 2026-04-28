@@ -11,8 +11,6 @@ public interface PacienteRepository extends JpaRepository <PacienteEntity, Long>
 
    Optional<PacienteEntity> findByEmail(String email);
 
-   @Modifying
-   @Transactional
    void deleteByEmail(String email);
 
    boolean existsByEmail(String email);
