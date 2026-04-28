@@ -1,13 +1,10 @@
 package com.senai.clinicaApi.entities;
 
-
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "paciente")
 public class PacienteEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
