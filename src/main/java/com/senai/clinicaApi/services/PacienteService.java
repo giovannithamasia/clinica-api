@@ -85,7 +85,6 @@ public class PacienteService {
         pacienteRepository.deleteByEmail(email);
         return true;
 
-
     }
 }
 
