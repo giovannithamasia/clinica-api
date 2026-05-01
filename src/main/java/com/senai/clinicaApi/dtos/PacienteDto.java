@@ -1,4 +1,4 @@
-package com.senai.clinicaApi.dto;
+package com.senai.clinicaApi.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,7 +1,7 @@
 package com.senai.clinicaApi.controllers;
 
-import com.senai.clinicaApi.dto.PacienteDto;
-import com.senai.clinicaApi.dto.PacienteRespostaDto;
+import com.senai.clinicaApi.dtos.PacienteDto;
+import com.senai.clinicaApi.dtos.PacienteRespostaDto;
 import com.senai.clinicaApi.exceptions.EmailDuplicadoException;
 import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;
 import com.senai.clinicaApi.exceptions.PacientePossuiConsultasException;
@@ -25,10 +25,10 @@ public class PacienteController {
 
     @PostMapping
     public ResponseEntity<String> criarPaciente(@RequestBody @Valid PacienteDto pacienteDto) {
-        try {
+        try{
             pacienteService.inserirPaciente(pacienteDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Paciente inserido com sucesso");
-        } catch (EmailDuplicadoException e) {
+        }catch(EmailDuplicadoException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
@@ -46,32 +46,32 @@ public class PacienteController {
 
     @GetMapping("/{email}")
     public ResponseEntity<Object> obterPaciente(@PathVariable String email) {
-        try {
+        try{
             PacienteRespostaDto paciente = pacienteService.obterPaciente(email);
             return ResponseEntity.status(HttpStatus.OK).body(paciente);
-        } catch (PacienteNaoEncontradoException e) {
+        }catch(PacienteNaoEncontradoException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @PutMapping("/{email}")
     public ResponseEntity<String> atualizarPaciente(@PathVariable String email, @RequestBody @Valid PacienteDto pacienteDto) {
-        try {
+        try{
             pacienteService.atualizarPaciente(email, pacienteDto);
             return ResponseEntity.status(HttpStatus.OK).body("Paciente atualizado com sucesso");
-        } catch (EmailDuplicadoException e) {
+        }catch(EmailDuplicadoException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (PacienteNaoEncontradoException e) {
+        }catch(PacienteNaoEncontradoException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{email}")
     public ResponseEntity<String> excluirPaciente(@PathVariable String email) {
-        try {
+        try{
             pacienteService.excluirPaciente(email);
             return ResponseEntity.status(HttpStatus.OK).body("Paciente excluído com sucesso");
-        } catch (PacienteNaoEncontradoException e) {
+        }catch(PacienteNaoEncontradoException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }catch(PacientePossuiConsultasException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());

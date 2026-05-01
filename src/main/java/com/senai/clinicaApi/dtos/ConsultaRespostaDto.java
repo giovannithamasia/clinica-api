@@ -1,4 +1,4 @@
-package com.senai.clinicaApi.dto;
+package com.senai.clinicaApi.dtos;
 
 import com.senai.clinicaApi.entities.Status;
 
