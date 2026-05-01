@@ -6,6 +6,8 @@ import com.senai.clinicaApi.dto.PacienteRespostaDto;
 import com.senai.clinicaApi.entities.PacienteEntity;
 import com.senai.clinicaApi.exceptions.EmailDuplicadoException;
 import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;
+import com.senai.clinicaApi.exceptions.PacientePossuiConsultasException;
+import com.senai.clinicaApi.repositories.ConsultaRepository;
 import com.senai.clinicaApi.repositories.PacienteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,11 @@ import java.util.List;
 public class PacienteService {
 
     private final PacienteRepository pacienteRepository;
+    private final ConsultaRepository consultaRepository;
 
-    public PacienteService(PacienteRepository pacienteRepository) {
+    public PacienteService(PacienteRepository pacienteRepository, ConsultaRepository consultaRepository) {
         this.pacienteRepository = pacienteRepository;
+        this.consultaRepository = consultaRepository;
     }
 
     @Transactional
@@ -91,9 +95,12 @@ public class PacienteService {
 
     @Transactional
     public boolean excluirPaciente(String email) {
-
         pacienteRepository.findByEmail(email)
                 .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
+
+        if (consultaRepository.existsByPacienteEmail(email)) {
+            throw new PacientePossuiConsultasException("Paciente vinculado em consultas");
+        }
 
         pacienteRepository.deleteByEmail(email);
 

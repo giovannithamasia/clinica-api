@@ -4,6 +4,7 @@ import com.senai.clinicaApi.dto.PacienteDto;
 import com.senai.clinicaApi.dto.PacienteRespostaDto;
 import com.senai.clinicaApi.exceptions.EmailDuplicadoException;
 import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;
+import com.senai.clinicaApi.exceptions.PacientePossuiConsultasException;
 import com.senai.clinicaApi.services.PacienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,8 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.OK).body("Paciente excluído com sucesso");
         } catch (PacienteNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch(PacientePossuiConsultasException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }
