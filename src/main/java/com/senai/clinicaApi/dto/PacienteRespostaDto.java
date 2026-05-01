@@ -9,6 +9,12 @@ public class PacienteRespostaDto {
     public PacienteRespostaDto() {
     }
 
+    public PacienteRespostaDto(Long id, String nome, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
