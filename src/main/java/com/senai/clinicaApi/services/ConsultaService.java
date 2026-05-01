@@ -1,8 +1,8 @@
 package com.senai.clinicaApi.services;
 
-import com.senai.clinicaApi.dto.ConsultaDto;
-import com.senai.clinicaApi.dto.ConsultaRespostaDto;
-import com.senai.clinicaApi.dto.PacienteRespostaDto;
+import com.senai.clinicaApi.dtos.ConsultaDto;
+import com.senai.clinicaApi.dtos.ConsultaRespostaDto;
+import com.senai.clinicaApi.dtos.PacienteRespostaDto;
 import com.senai.clinicaApi.entities.ConsultaEntity;
 import com.senai.clinicaApi.entities.PacienteEntity;
 import com.senai.clinicaApi.exceptions.ConflitoAgendamentoException;
@@ -47,7 +47,6 @@ public class ConsultaService {
     }
 
     public List<ConsultaRespostaDto> obterConsultas(){
-
         List<ConsultaRespostaDto> listaDtos = new ArrayList<>();
 
         List<ConsultaEntity> listaEntities = consultaRepository.findAll();

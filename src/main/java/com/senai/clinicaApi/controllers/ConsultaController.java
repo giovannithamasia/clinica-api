@@ -1,7 +1,7 @@
 package com.senai.clinicaApi.controllers;
 
-import com.senai.clinicaApi.dto.ConsultaDto;
-import com.senai.clinicaApi.dto.ConsultaRespostaDto;
+import com.senai.clinicaApi.dtos.ConsultaDto;
+import com.senai.clinicaApi.dtos.ConsultaRespostaDto;
 import com.senai.clinicaApi.exceptions.ConflitoAgendamentoException;
 import com.senai.clinicaApi.exceptions.ConsultaNaoEncontradaException;
 import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;

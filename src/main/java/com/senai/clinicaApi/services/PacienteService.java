@@ -1,8 +1,8 @@
 package com.senai.clinicaApi.services;
 
 
-import com.senai.clinicaApi.dto.PacienteDto;
-import com.senai.clinicaApi.dto.PacienteRespostaDto;
+import com.senai.clinicaApi.dtos.PacienteDto;
+import com.senai.clinicaApi.dtos.PacienteRespostaDto;
 import com.senai.clinicaApi.entities.PacienteEntity;
 import com.senai.clinicaApi.exceptions.EmailDuplicadoException;
 import com.senai.clinicaApi.exceptions.PacienteNaoEncontradoException;
@@ -28,7 +28,6 @@ public class PacienteService {
 
     @Transactional
     public boolean inserirPaciente(PacienteDto pacienteDto) {
-
         if (pacienteRepository.existsByEmail(pacienteDto.getEmail())) {
             throw new EmailDuplicadoException("Já existe paciente");
         }
@@ -44,7 +43,6 @@ public class PacienteService {
     }
 
     public List<PacienteRespostaDto> obterPacientes() {
-
         List<PacienteEntity> entidades = pacienteRepository.findAll();
         List<PacienteRespostaDto> listaResposta = new ArrayList<>();
 
@@ -60,7 +58,6 @@ public class PacienteService {
     }
 
     public PacienteRespostaDto obterPaciente(String email) {
-
         PacienteEntity paciente = pacienteRepository.findByEmail(email)
                 .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
 
@@ -75,12 +72,11 @@ public class PacienteService {
 
     @Transactional
     public boolean atualizarPaciente(String email, PacienteDto pacienteDto) {
-
         PacienteEntity paciente = pacienteRepository.findByEmail(email)
                 .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
 
         if (pacienteRepository.existsByEmailAndIdNot(pacienteDto.getEmail(), paciente.getId())) {
-            throw new EmailDuplicadoException("Já existe paciente com esse email");
+            throw new EmailDuplicadoException("Já existe paciente");
         }
 
         paciente.setNome(pacienteDto.getNome());
@@ -96,7 +92,7 @@ public class PacienteService {
     @Transactional
     public boolean excluirPaciente(String email) {
         pacienteRepository.findByEmail(email)
-                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não existe"));
 
         if (consultaRepository.existsByPacienteEmail(email)) {
             throw new PacientePossuiConsultasException("Paciente vinculado em consultas");
