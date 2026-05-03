@@ -26,7 +26,7 @@ public class ConsultaController {
     public ResponseEntity<String> criarConsulta(@RequestBody @Valid ConsultaDto consultaDto){
         try{
             service.inserirConsulta(consultaDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Consulta inserida com sucesso");
+            return ResponseEntity.status(HttpStatus.OK).body("Consulta inserida com sucesso");
         }catch(PacienteNaoEncontradoException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }catch(ConflitoAgendamentoException e){
