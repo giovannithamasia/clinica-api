@@ -28,10 +28,10 @@ public class ConsultaService {
 
     public boolean inserirConsulta(ConsultaDto dto){
         PacienteEntity paciente = pacienteRepository.findByEmail(dto.getEmailPaciente())
-                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente da consulta não encontrado"));
 
         if (consultaRepository.existsByPacienteAndDataConsulta(paciente,dto.getDataConsulta())){
-            throw new ConflitoAgendamentoException("Paciente já possui consulta agendada para data e horário informados");
+            throw new ConflitoAgendamentoException("Paciente já possui consulta agendada para a data e horário informados");
         }
 
         ConsultaEntity consulta = new ConsultaEntity();
@@ -79,7 +79,7 @@ public class ConsultaService {
 
         if (consultaRepository.existsByPacienteAndDataConsultaAndIdNot(paciente,dto.getDataConsulta(),consultaId)){
             throw new ConflitoAgendamentoException
-                    ("Paciente já possui consulta agendada para data informada");
+                    ("Paciente já possui consulta agendada para a data informada");
         }
 
         consulta.setTitulo(dto.getTitulo());

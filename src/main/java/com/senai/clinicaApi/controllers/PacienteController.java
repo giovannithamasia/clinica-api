@@ -27,7 +27,7 @@ public class PacienteController {
     public ResponseEntity<String> criarPaciente(@RequestBody @Valid PacienteDto pacienteDto) {
         try{
             pacienteService.inserirPaciente(pacienteDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Paciente inserido com sucesso");
+            return ResponseEntity.status(HttpStatus.OK).body("Paciente inserido com sucesso");
         }catch(EmailDuplicadoException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
