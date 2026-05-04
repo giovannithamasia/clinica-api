@@ -2,7 +2,7 @@ package com.senai.clinicaApi.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "consulta")
@@ -17,7 +17,7 @@ public class ConsultaEntity {
     private String titulo;
 
     @Column(name = "data_consulta", nullable = false)
-    private LocalDateTime dataConsulta;
+    private LocalDate dataConsulta;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -27,7 +27,7 @@ public class ConsultaEntity {
     @JoinColumn(name = "id_paciente", nullable = false)
     private PacienteEntity paciente;
 
-    public ConsultaEntity(Long id, String titulo, LocalDateTime dataConsulta, Status status, PacienteEntity paciente) {
+    public ConsultaEntity(Long id, String titulo, LocalDate dataConsulta, Status status, PacienteEntity paciente) {
         this.id = id;
         this.titulo = titulo;
         this.dataConsulta = dataConsulta;
@@ -54,11 +54,11 @@ public class ConsultaEntity {
         this.titulo = titulo;
     }
 
-    public LocalDateTime getDataConsulta() {
+    public LocalDate getDataConsulta() {
         return dataConsulta;
     }
 
-    public void setDataConsulta(LocalDateTime dataConsulta) {
+    public void setDataConsulta(LocalDate dataConsulta) {
         this.dataConsulta = dataConsulta;
     }
 

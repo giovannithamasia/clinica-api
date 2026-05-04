@@ -85,9 +85,7 @@ public class PacienteService {
         pacienteRepository.save(paciente);
 
         return true;
-
     }
-
 
     @Transactional
     public boolean excluirPaciente(String email) {

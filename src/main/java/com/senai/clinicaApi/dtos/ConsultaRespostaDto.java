@@ -2,7 +2,7 @@ package com.senai.clinicaApi.dtos;
 
 import com.senai.clinicaApi.entities.Status;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ConsultaRespostaDto {
 
@@ -10,7 +10,7 @@ public class ConsultaRespostaDto {
 
     private String titulo;
 
-    private LocalDateTime dataConsulta;
+    private LocalDate dataConsulta;
 
     private Status status;
 
@@ -35,11 +35,11 @@ public class ConsultaRespostaDto {
         this.titulo = titulo;
     }
 
-    public LocalDateTime getDataConsulta() {
+    public LocalDate getDataConsulta() {
         return dataConsulta;
     }
 
-    public void setDataConsulta(LocalDateTime dataConsulta) {
+    public void setDataConsulta(LocalDate dataConsulta) {
         this.dataConsulta = dataConsulta;
     }
 

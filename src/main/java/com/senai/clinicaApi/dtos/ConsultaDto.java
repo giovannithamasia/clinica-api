@@ -4,7 +4,7 @@ import com.senai.clinicaApi.entities.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ConsultaDto {
 
@@ -12,7 +12,7 @@ public class ConsultaDto {
     private String titulo;
 
     @NotNull(message = "A data da consulta é obrigatória")
-    private LocalDateTime dataConsulta;
+    private LocalDate dataConsulta;
 
     @NotNull(message = "O status é obrigatório")
     private Status status;
@@ -20,7 +20,7 @@ public class ConsultaDto {
     @NotBlank(message = "O email do paciente é obrigatório")
     private String emailPaciente;
 
-    public ConsultaDto(String titulo, LocalDateTime dataConsulta, Status status, String emailPaciente) {
+    public ConsultaDto(String titulo, LocalDate dataConsulta, Status status, String emailPaciente) {
         this.titulo = titulo;
         this.dataConsulta = dataConsulta;
         this.status = status;
@@ -38,11 +38,11 @@ public class ConsultaDto {
         this.titulo = titulo;
     }
 
-    public LocalDateTime getDataConsulta() {
+    public LocalDate getDataConsulta() {
         return dataConsulta;
     }
 
-    public void setDataConsulta(LocalDateTime dataConsulta) {
+    public void setDataConsulta(LocalDate dataConsulta) {
         this.dataConsulta = dataConsulta;
     }
 
