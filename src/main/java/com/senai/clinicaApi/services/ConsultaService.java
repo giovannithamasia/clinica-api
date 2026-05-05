@@ -31,7 +31,7 @@ public class ConsultaService {
                 .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente da consulta não encontrado"));
 
         if (consultaRepository.existsByPacienteAndDataConsulta(paciente,dto.getDataConsulta())){
-            throw new ConflitoAgendamentoException("Paciente já possui consulta agendada para a data e horário informados");
+            throw new ConflitoAgendamentoException("Paciente já possui consulta agendada para a data informada");
         }
 
         ConsultaEntity consulta = new ConsultaEntity();
