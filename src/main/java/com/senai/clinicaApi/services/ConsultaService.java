@@ -40,6 +40,7 @@ public class ConsultaService {
         consulta.setDataConsulta(dto.getDataConsulta());
         consulta.setStatus(dto.getStatus());
         consulta.setPaciente(paciente);
+        consulta.setTipo(dto.getTipo());
 
         consultaRepository.save(consulta);
 
@@ -97,6 +98,17 @@ public class ConsultaService {
                 .orElseThrow(() -> new ConsultaNaoEncontradaException("Consulta não encontrada"));
 
         consultaRepository.deleteById(consultaId);
+
+        return true;
+    }
+
+    public boolean cancelarConsulta(Long id){
+        ConsultaEntity consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new ConsultaNaoEncontradaException("Consulta não encontrada"));
+
+        consulta.setTitulo("CONSULTA CANCELADA");
+
+        consultaRepository.save(consulta);
 
         return true;
     }

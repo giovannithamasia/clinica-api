@@ -24,6 +24,10 @@ public class ConsultaController {
 
     @PostMapping("/consulta")
     public ResponseEntity<String> criarConsulta(@RequestBody @Valid ConsultaDto consultaDto){
+        if (!consultaDto.getTipo().equals("ONLINE") && !consultaDto.getTipo().equals("PRESENCIAL")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de consulta inválido");
+        }
+
         try{
             service.inserirConsulta(consultaDto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Consulta inserida com sucesso");
@@ -66,6 +70,16 @@ public class ConsultaController {
             return ResponseEntity.status(HttpStatus.OK).body("Consulta excluída com sucesso");
         }catch(ConsultaNaoEncontradaException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/consulta/cancelar/{id}")
+    public ResponseEntity<String> cancelarConsulta(@PathVariable Long id){
+        try{
+            service.cancelarConsulta(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Consulta cancelada com sucesso");
+        }catch (ConsultaNaoEncontradaException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
 }
