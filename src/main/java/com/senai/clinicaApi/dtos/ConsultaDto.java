@@ -20,11 +20,14 @@ public class ConsultaDto {
     @NotBlank(message = "O email do paciente é obrigatório")
     private String emailPaciente;
 
-    public ConsultaDto(String titulo, LocalDate dataConsulta, Status status, String emailPaciente) {
+    private String tipo;
+
+    public ConsultaDto(String titulo, LocalDate dataConsulta, Status status, String emailPaciente, String tipo) {
         this.titulo = titulo;
         this.dataConsulta = dataConsulta;
         this.status = status;
         this.emailPaciente = emailPaciente;
+        this.tipo = tipo;
     }
 
     public ConsultaDto() {
@@ -60,5 +63,13 @@ public class ConsultaDto {
 
     public void setEmailPaciente(String emailPaciente) {
         this.emailPaciente = emailPaciente;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

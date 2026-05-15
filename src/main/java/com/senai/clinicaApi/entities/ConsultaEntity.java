@@ -23,15 +23,19 @@ public class ConsultaEntity {
     @Column(name = "status", nullable = false)
     private Status status;
 
+    @Column(name = "tipo",nullable = false)
+    private String tipo;
+
     @ManyToOne
     @JoinColumn(name = "id_paciente", nullable = false)
     private PacienteEntity paciente;
 
-    public ConsultaEntity(Long id, String titulo, LocalDate dataConsulta, Status status, PacienteEntity paciente) {
+    public ConsultaEntity(Long id, String titulo, LocalDate dataConsulta, Status status, String tipo, PacienteEntity paciente) {
         this.id = id;
         this.titulo = titulo;
         this.dataConsulta = dataConsulta;
         this.status = status;
+        this.tipo = tipo;
         this.paciente = paciente;
     }
 
@@ -68,6 +72,14 @@ public class ConsultaEntity {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public PacienteEntity getPaciente() {
