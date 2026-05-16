@@ -114,11 +114,11 @@ git clone https://github.com/giovannithamasia/clinica-api.git
 ```
 - Construir o projeto:
 ```
-$ ./mvnw clean package
+ ./mvnw clean package
 ```
 - Executar a aplicação:
 ```
-$ java -jar target/clinicaApi-0.0.1-SNAPSHOT.jar
+ java -jar target/clinicaApi-0.0.1-SNAPSHOT.jar
 ```
 
 A API poderá ser acessada em [localhost:8080](http://localhost:8080)
