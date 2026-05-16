@@ -110,7 +110,7 @@ Este projeto utiliza o banco de dados **MySQL**. Antes de executar, certifique-s
 
 - Clonar o repositório git:
 ```bash
-git clone [https://github.com/giovannithamasia/clinica-api.git](https://github.com/giovannithamasia/clinica-api.git)
+git clone https://github.com/giovannithamasia/clinica-api.git
 ```
 - Construir o projeto:
 ```
